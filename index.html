@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
@@ -17,10 +17,10 @@
 <div class="grain" aria-hidden="true"></div>
 <div class="cinematic-vignette" aria-hidden="true"></div>
 
-<!-- CURSOR TRAIL SPARKLES (Desktop & touch glow) -->
+<!-- CURSOR TRAIL SPARKLES (Desktop glow) -->
 <div id="cursorGlow" class="cursor-glow" aria-hidden="true"></div>
 
-<!-- AMBIENT GLOW ORBS WITH PULSING GRADIENTS -->
+<!-- AMBIENT GLOW ORBS -->
 <div class="ambient-glow glow-1" aria-hidden="true"></div>
 <div class="ambient-glow glow-2" aria-hidden="true"></div>
 <div class="ambient-glow glow-3" aria-hidden="true"></div>
@@ -46,7 +46,7 @@
 
 <!-- ═══════ SCENE 1 · INTRO (Cinematic Title Card) ═══════════════ -->
 <section class="scene scene-dark active" id="s-intro">
-  <div class="intro-wrap">
+  <div class="scene-container intro-wrap">
     <div class="intro-badge">
       <span class="sparkle-icon">✦</span>
       <span class="intro-eyebrow" id="introEyebrow">sebuah cerita kecil untukmu</span>
@@ -74,31 +74,33 @@
 
 <!-- ═══════ SCENE 2 · THE DATE (Luxury Calendar Plate) ═══════════ -->
 <section class="scene scene-cream" id="s-date">
-  <div class="date-card glass-panel-3d">
-    <div class="date-card-border"></div>
-    <div class="date-header">
-      <span class="date-day-name" id="dateDayName">Sunday</span>
-      <span class="date-dot">•</span>
-      <span class="date-month" id="dateMonth">November</span>
-      <span class="date-year"  id="dateYear">2026</span>
+  <div class="scene-container">
+    <div class="date-card glass-panel-3d">
+      <div class="date-card-border"></div>
+      <div class="date-header">
+        <span class="date-day-name" id="dateDayName">Sunday</span>
+        <span class="date-dot">•</span>
+        <span class="date-month" id="dateMonth">November</span>
+        <span class="date-year"  id="dateYear">2026</span>
+      </div>
+
+      <div class="gold-rule"></div>
+
+      <div class="date-number-wrap">
+        <span class="date-number counter-glow" id="dateNumber">22</span>
+      </div>
+
+      <div class="soft-rule"></div>
+
+      <p class="date-tagline">a day worth celebrating.</p>
+      <p class="date-sub" id="dateSub">another year, another beautiful chapter.</p>
     </div>
-
-    <div class="gold-rule"></div>
-
-    <div class="date-number-wrap">
-      <span class="date-number counter-glow" id="dateNumber">22</span>
-    </div>
-
-    <div class="soft-rule"></div>
-
-    <p class="date-tagline">a day worth celebrating.</p>
-    <p class="date-sub" id="dateSub">another year, another beautiful chapter.</p>
   </div>
 </section>
 
 <!-- ═══════ SCENE 3 · CHAPTER (The Age Counter) ══════════════════ -->
 <section class="scene scene-dark" id="s-chapter">
-  <div class="centered">
+  <div class="scene-container centered">
     <p class="chap-label">chapter</p>
     <div class="chap-num-wrap">
       <div class="chap-num shimmer-text" id="chapNum">0</div>
@@ -152,7 +154,7 @@
         </div>
       </article>
     </div>
-    <button class="pill-btn pill-dark magical-btn" id="btnAfterLetter">
+    <button class="pill-btn pill-dark magical-btn letter-nav-btn" id="btnAfterLetter">
       <span class="btn-glow-pulse"></span>
       <span class="btn-text">lanjutkan</span>
       <span class="btn-arrow">→</span>
@@ -163,7 +165,7 @@
 
 <!-- ═══════ SCENE 4.5 · MEMORIES (The 3 Aesthetic Polaroid Memories) ═══════ -->
 <section class="scene scene-dark" id="s-memories">
-  <div class="centered memories-centered">
+  <div class="scene-container memories-centered">
     <div class="memories-header">
       <p class="memories-eyebrow">precious moments</p>
       <h2 class="memories-title shimmer-text">senyuman yang selalu berharga</h2>
@@ -206,7 +208,7 @@
       </div>
     </div>
 
-    <button class="pill-btn pill-gold magical-btn" id="btnAfterMemories" style="margin-top: 2rem;">
+    <button class="pill-btn pill-gold magical-btn" id="btnAfterMemories">
       <span class="btn-glow-pulse"></span>
       <span class="btn-text">sebuah harapan untukmu</span>
       <span class="btn-arrow">→</span>
@@ -254,7 +256,7 @@
 
 <!-- ═══════ SCENE 7 · CAKE (Realistic Tier Cake & Flame) ═════════ -->
 <section class="scene scene-dark" id="s-cake">
-  <div class="centered cake-centered">
+  <div class="scene-container cake-centered">
 
     <div class="cake-header-wrap">
       <p class="cake-eyebrow" id="cakeEyebrow">one more thing...</p>
@@ -358,13 +360,13 @@
 <!-- ═══════ SCENE 8 · SURPRISE (Emotional Climax with Fireworks & 3D Ring) ═══════ -->
 <section class="scene scene-dark" id="s-surprise">
   <canvas id="fireworksCanvas" aria-hidden="true"></canvas>
-  <div class="centered">
+  <div class="scene-container centered">
     <div id="srpWait">
       <p class="surprise-line pulse-glow">tunggu sebentar...</p>
     </div>
     <div class="hidden" id="srpTeaser">
       <p class="surprise-line">ada satu hal kecil lagi yang belum terucap.</p>
-      <button class="pill-btn pill-gold magical-btn" id="btnOpenSrp" style="margin-top:2.2rem">
+      <button class="pill-btn pill-gold magical-btn" id="btnOpenSrp">
         <span class="btn-glow-pulse"></span>
         <span class="btn-text">buka sekarang</span>
         <span class="btn-arrow">✨</span>
@@ -390,7 +392,7 @@
 <section class="scene scene-dark" id="s-final">
   <canvas id="finalCanvas" aria-hidden="true"></canvas>
 
-  <div class="centered final-centered">
+  <div class="scene-container centered final-centered">
     <div class="final-shooting-star meteor-1"></div>
     <div class="final-shooting-star meteor-2"></div>
     <h1 class="final-name shimmer-text" id="finalName">Kakak</h1>
