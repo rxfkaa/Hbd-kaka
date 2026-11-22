@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#070408" />
+  <title>A Little Birthday Story — For Kakak</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+<!-- CINEMATIC GRAIN & VIGNETTE -->
+<div class="grain" aria-hidden="true"></div>
+<div class="cinematic-vignette" aria-hidden="true"></div>
+
+<!-- AMBIENT GLOW ORBS -->
+<div class="ambient-glow glow-1" aria-hidden="true"></div>
+<div class="ambient-glow glow-2" aria-hidden="true"></div>
+
+<!-- DUST PARTICLES CANVAS -->
+<canvas id="dustCanvas" aria-hidden="true"></canvas>
+
+<!-- FLOATING MUSIC CONTROLLER -->
+<div class="music-ctrl hidden" id="musicCtrl">
+  <button class="music-btn" id="musicBtn" aria-label="Toggle musik">
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  </button>
+  <span class="music-label" id="musicLabel">melody</span>
+</div>
+
+<!-- TRANSITION OVERLAY -->
+<div class="scene-overlay" id="sceneOverlay"></div>
+
+<!-- BACKGROUND AUDIO -->
+<audio id="bgAudio" loop preload="auto">
+  <source src="birthday.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- ═══════ SCENE 1 · INTRO (Cinematic Title Card) ═══════════════ -->
+<section class="scene scene-dark active" id="s-intro">
+  <div class="intro-wrap">
+    <div class="intro-badge">
+      <span class="sparkle-icon">✦</span>
+      <span class="intro-eyebrow" id="introEyebrow">sebuah cerita kecil untukmu</span>
+      <span class="sparkle-icon">✦</span>
+    </div>
+
+    <div class="intro-line-container">
+      <div class="intro-line" id="introLine"></div>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <p class="intro-label">today is your day</p>
+      <h1 class="intro-name" id="introName">Kakak</h1>
+    </div>
+
+    <p class="intro-quote" id="introQuote">"setiap detik hari ini tercipta untuk merayakan hadirmu."</p>
+
+    <button class="pill-btn" id="btnContinue">
+      <span class="btn-text">buka cerita</span>
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══════ SCENE 2 · THE DATE (Luxury Calendar Plate) ═══════════ -->
+<section class="scene scene-cream" id="s-date">
+  <div class="date-card">
+    <div class="date-card-border"></div>
+    <div class="date-header">
+      <span class="date-day-name" id="dateDayName">Sunday</span>
+      <span class="date-dot">•</span>
+      <span class="date-month" id="dateMonth">November</span>
+      <span class="date-year"  id="dateYear">2026</span>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <div class="date-number-wrap">
+      <span class="date-number" id="dateNumber">22</span>
+    </div>
+
+    <div class="soft-rule"></div>
+
+    <p class="date-tagline">a day worth celebrating.</p>
+    <p class="date-sub" id="dateSub">another year, another beautiful chapter.</p>
+  </div>
+</section>
+
+<!-- ═══════ SCENE 3 · CHAPTER (The Age Counter) ══════════════════ -->
+<section class="scene scene-dark" id="s-chapter">
+  <div class="centered">
+    <p class="chap-label">chapter</p>
+    <div class="chap-num-wrap">
+      <div class="chap-num" id="chapNum">0</div>
+      <div class="chap-num-glow"></div>
+    </div>
+    <p class="chap-sub" id="chapSub">begins today.</p>
+    <div class="chap-divider"></div>
+  </div>
+</section>
+
+<!-- ═══════ SCENE 4 · LETTER (The Vintage Wax Envelope) ══════════ -->
+<section class="scene scene-dark" id="s-letter">
+
+  <!-- ENVELOPE STAGE -->
+  <div class="env-stage" id="envWrap">
+    <div class="envelope" id="envelope">
+      <div class="env-flap" id="envFlap"></div>
+      <div class="env-pocket"></div>
+      <div class="env-body">
+        <p class="env-for">for my dearest sister</p>
+        <div class="env-seal-wax">
+          <span class="seal-inner">🌸</span>
+        </div>
+      </div>
+    </div>
+    <p class="env-hint">sentuh amplop untuk membuka 💌</p>
+  </div>
+
+  <!-- LETTER PAPER STAGE -->
+  <div class="letter-wrap hidden" id="letterWrap">
+    <div class="letter-scroll" id="letterScroll">
+      <article class="letter-paper" id="letterPaper">
+        <div class="letter-corner lt"></div>
+        <div class="letter-corner rt"></div>
+        <div class="letter-corner lb"></div>
+        <div class="letter-corner rb"></div>
+
+        <div class="letter-header-deco">
+          <span class="deco-line"></span>
+          <span class="deco-symbol">✧ ✦ ✧</span>
+          <span class="deco-line"></span>
+        </div>
+
+        <p class="letter-greeting">dear kakak tersayang,</p>
+        <div class="letter-body" id="letterBody"></div>
+        <p class="letter-sign">— dengan penuh rasa sayang 🤍</p>
+
+        <div class="letter-footer-deco">
+          <span class="footer-dots">• • •</span>
+        </div>
+      </article>
+    </div>
+    <button class="pill-btn pill-dark" id="btnAfterLetter">
+      <span class="btn-text">lanjutkan</span>
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+
+</section>
+
+<!-- ═══════ SCENE 4.5 · MEMORIES (The 3 Aesthetic Polaroid Memories) ═══════ -->
+<section class="scene scene-dark" id="s-memories">
+  <div class="centered memories-centered">
+    <div class="memories-header">
+      <p class="memories-eyebrow">precious moments</p>
+      <h2 class="memories-title">senyuman yang selalu berharga</h2>
+      <p class="memories-desc">beberapa potret kecil dari seseorang yang begitu berarti</p>
+    </div>
+
+    <!-- 3 POLAROID CARDS GALLERY -->
+    <div class="polaroid-deck" id="polaroidDeck">
+      <!-- Card 1 -->
+      <div class="polaroid-card p-card-1" data-index="0">
+        <div class="polaroid-pin">✦</div>
+        <div class="polaroid-photo-frame">
+          <img src="foto 1.jpeg" alt="Kenangan 1" class="polaroid-img" />
+          <div class="photo-sheen"></div>
+        </div>
+        <div class="polaroid-tape"></div>
+        <p class="polaroid-caption">senyum manisnya kakak ✨</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="polaroid-card p-card-2" data-index="1">
+        <div class="polaroid-pin">✦</div>
+        <div class="polaroid-photo-frame">
+          <img src="foto 2.jpeg" alt="Kenangan 2" class="polaroid-img" />
+          <div class="photo-sheen"></div>
+        </div>
+        <div class="polaroid-tape"></div>
+        <p class="polaroid-caption">momen bahagia yang abadi 🌸</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="polaroid-card p-card-3" data-index="2">
+        <div class="polaroid-pin">✦</div>
+        <div class="polaroid-photo-frame">
+          <img src="foto 3.jpeg" alt="Kenangan 3" class="polaroid-img" />
+          <div class="photo-sheen"></div>
+        </div>
+        <div class="polaroid-tape"></div>
+        <p class="polaroid-caption">tetap jadi dirimu yang cantik 🤍</p>
+      </div>
+    </div>
+
+    <button class="pill-btn pill-gold" id="btnAfterMemories" style="margin-top: 2rem;">
+      <span class="btn-text">sebuah harapan untukmu</span>
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+
+  <!-- LIGHTBOX MODAL -->
+  <div class="lightbox-modal hidden" id="lightboxModal">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <div class="lightbox-frame">
+        <img src="" alt="Enlarged" id="lightboxImg" />
+      </div>
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SCENE 5 · WISHES (Cinematic Text Journey) ════════════ -->
+<section class="scene scene-dark" id="s-wishes">
+  <div class="wish-stage" id="wishStage"></div>
+  <div class="wish-progress" id="wishProgress">
+    <div class="wish-progress-bar" id="wishProgressBar"></div>
+  </div>
+</section>
+
+<!-- ═══════ SCENE 6 · STARS (Constellation Universe) ═════════════ -->
+<section class="scene scene-night" id="s-stars">
+  <canvas id="starCanvas" aria-hidden="true"></canvas>
+
+  <div class="star-ui" id="starUI">
+    <p class="star-prompt">pilih satu bintangmu.</p>
+    <p class="star-hint" id="starHint">sentuh bintang yang paling bersinar terang</p>
+  </div>
+
+  <div class="star-granted hidden" id="starGranted">
+    <div class="granted-halo"></div>
+    <p class="star-granted-txt">that's your wish.</p>
+    <p class="star-granted-sub">semoga alam semesta mengabulkan segalanya</p>
+  </div>
+</section>
+
+<!-- ═══════ SCENE 7 · CAKE (Realistic Tier Cake & Flame) ═════════ -->
+<section class="scene scene-dark" id="s-cake">
+  <div class="centered cake-centered">
+
+    <div class="cake-header-wrap">
+      <p class="cake-eyebrow" id="cakeEyebrow">one more thing...</p>
+      <p class="cake-title"   id="cakeTitle">make a wish.</p>
+      <p class="cake-instruction" id="cakeInstruction">pejamkan mata, ucapkan sebuah doa dalam hati</p>
+    </div>
+
+    <!-- CAKE STAGE -->
+    <div class="cake-stage" id="cakeStage">
+
+      <!-- CANDLE COMPONENT (Positioned naturally on top tier) -->
+      <div class="cake-candle" id="cakeCandle">
+        <div class="flame-aura"></div>
+        <div class="flame-wrap" id="flameWrap">
+          <svg class="flame-svg" id="flameSVG" viewBox="0 0 32 54" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="flameInner" cx="50%" cy="85%" r="65%">
+                <stop offset="0%"   stop-color="#ffffff"/>
+                <stop offset="25%"  stop-color="#fff2a8"/>
+                <stop offset="60%"  stop-color="#ff9d14"/>
+                <stop offset="100%" stop-color="#e04040" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="flameOuter" cx="50%" cy="75%" r="75%">
+                <stop offset="0%"   stop-color="#ffb732" stop-opacity="0.8"/>
+                <stop offset="70%"  stop-color="#ff4500" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#c9184a" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="flameBlur"><feGaussianBlur stdDeviation="1.5"/></filter>
+            </defs>
+            <!-- outer halo -->
+            <ellipse cx="16" cy="34" rx="14" ry="18" fill="url(#flameOuter)" filter="url(#flameBlur)"/>
+            <!-- core flame -->
+            <path d="M16 50 C7 44 4 33 9 23 C11 18 14 13 16 3 C18 13 21 18 23 23 C28 33 25 44 16 50Z" fill="url(#flameInner)"/>
+          </svg>
+        </div>
+        <div class="candle-wick"></div>
+        <div class="candle-body">
+          <div class="candle-spiral"></div>
+        </div>
+      </div>
+
+      <!-- 2-TIER CAKE WITH DRIPPING FROSTING & PLATE -->
+      <div class="cake-structure">
+        <!-- TOP TIER -->
+        <div class="tier tier-1">
+          <div class="frosting-crown">
+            <span class="cream-drop"></span>
+            <span class="cream-drop"></span>
+            <span class="cream-drop"></span>
+            <span class="cream-drop"></span>
+            <span class="cream-drop"></span>
+          </div>
+          <div class="tier-wall tier-wall-1">
+            <div class="gold-band"></div>
+          </div>
+        </div>
+
+        <!-- BOTTOM TIER -->
+        <div class="tier tier-2">
+          <div class="frosting-rim">
+            <span class="cream-piping"></span>
+            <span class="cream-piping"></span>
+            <span class="cream-piping"></span>
+            <span class="cream-piping"></span>
+            <span class="cream-piping"></span>
+            <span class="cream-piping"></span>
+          </div>
+          <div class="tier-wall tier-wall-2">
+            <div class="gold-beads"></div>
+          </div>
+        </div>
+
+        <!-- CAKE STAND & PEDESTAL -->
+        <div class="cake-stand">
+          <div class="plate-top"></div>
+          <div class="plate-rim"></div>
+          <div class="stand-base"></div>
+        </div>
+      </div>
+
+    </div><!-- /cake-stage -->
+
+    <button class="pill-btn pill-gold hidden" id="btnBlow">
+      <span class="candle-icon">🕯️</span>
+      <span class="btn-text">tiup lilinnya</span>
+      <span class="sparkle-tiny">✨</span>
+    </button>
+
+    <div class="cake-after hidden" id="cakeAfter">
+      <p class="cake-hbd">Happy Birthday, Kakak.</p>
+      <p class="cake-wish-granted">semoga seluruh doa baikmu hari ini terjawab sempurna</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════ SCENE 8 · SURPRISE (Emotional Climax with Memory Floating) ═══════ -->
+<section class="scene scene-dark" id="s-surprise">
+  <div class="centered">
+    <div id="srpWait">
+      <p class="surprise-line">tunggu sebentar...</p>
+    </div>
+    <div class="hidden" id="srpTeaser">
+      <p class="surprise-line">ada satu hal kecil lagi yang belum terucap.</p>
+      <button class="pill-btn pill-gold" id="btnOpenSrp" style="margin-top:2.2rem">
+        <span class="btn-text">buka sekarang</span>
+        <span class="btn-arrow">✨</span>
+      </button>
+    </div>
+    <div class="srp-reveal hidden" id="srpReveal">
+      <div class="srp-glow"></div>
+      <div class="srp-avatar-ring">
+        <img src="foto 1.jpeg" alt="Kakak" class="srp-avatar-img" />
+      </div>
+      <h2 class="srp-title" id="srpTitle">HAPPY BIRTHDAY, KAKAK 🤍</h2>
+      <p class="srp-sub">semoga tahun ini berjalan seindah dan sebaik hatimu.</p>
+      <p class="srp-thankyou">terima kasih sudah ada di dunia ini.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ SCENE 9 · FINAL (Minimalistic Memory Screen) ═════════ -->
+<section class="scene scene-dark" id="s-final">
+  <canvas id="finalCanvas" aria-hidden="true"></canvas>
+
+  <div class="centered final-centered">
+    <div class="final-shooting-star"></div>
+    <h1 class="final-name" id="finalName">Kakak</h1>
+    <p  class="final-hbd">happy birthday</p>
+    <div class="final-rule"></div>
+    <p  class="final-date" id="finalDate">22 November 2026</p>
+    <p  class="final-made">made especially with all my love for you. 🤍</p>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
