@@ -17,11 +17,15 @@
 <div class="grain" aria-hidden="true"></div>
 <div class="cinematic-vignette" aria-hidden="true"></div>
 
-<!-- AMBIENT GLOW ORBS -->
+<!-- CURSOR TRAIL SPARKLES (Desktop & touch glow) -->
+<div id="cursorGlow" class="cursor-glow" aria-hidden="true"></div>
+
+<!-- AMBIENT GLOW ORBS WITH PULSING GRADIENTS -->
 <div class="ambient-glow glow-1" aria-hidden="true"></div>
 <div class="ambient-glow glow-2" aria-hidden="true"></div>
+<div class="ambient-glow glow-3" aria-hidden="true"></div>
 
-<!-- DUST PARTICLES CANVAS -->
+<!-- DUST PARTICLES & PETALS CANVAS -->
 <canvas id="dustCanvas" aria-hidden="true"></canvas>
 
 <!-- FLOATING MUSIC CONTROLLER -->
@@ -55,12 +59,13 @@
 
     <div class="intro-body" id="introBody">
       <p class="intro-label">today is your day</p>
-      <h1 class="intro-name" id="introName">Kakak</h1>
+      <h1 class="intro-name shimmer-text" id="introName">Kakak</h1>
     </div>
 
     <p class="intro-quote" id="introQuote">"setiap detik hari ini tercipta untuk merayakan hadirmu."</p>
 
-    <button class="pill-btn" id="btnContinue">
+    <button class="pill-btn magical-btn" id="btnContinue">
+      <span class="btn-glow-pulse"></span>
       <span class="btn-text">buka cerita</span>
       <span class="btn-arrow">→</span>
     </button>
@@ -69,7 +74,7 @@
 
 <!-- ═══════ SCENE 2 · THE DATE (Luxury Calendar Plate) ═══════════ -->
 <section class="scene scene-cream" id="s-date">
-  <div class="date-card">
+  <div class="date-card glass-panel-3d">
     <div class="date-card-border"></div>
     <div class="date-header">
       <span class="date-day-name" id="dateDayName">Sunday</span>
@@ -81,7 +86,7 @@
     <div class="gold-rule"></div>
 
     <div class="date-number-wrap">
-      <span class="date-number" id="dateNumber">22</span>
+      <span class="date-number counter-glow" id="dateNumber">22</span>
     </div>
 
     <div class="soft-rule"></div>
@@ -96,8 +101,9 @@
   <div class="centered">
     <p class="chap-label">chapter</p>
     <div class="chap-num-wrap">
-      <div class="chap-num" id="chapNum">0</div>
+      <div class="chap-num shimmer-text" id="chapNum">0</div>
       <div class="chap-num-glow"></div>
+      <div class="chap-ring-orbit"></div>
     </div>
     <p class="chap-sub" id="chapSub">begins today.</p>
     <div class="chap-divider"></div>
@@ -109,12 +115,12 @@
 
   <!-- ENVELOPE STAGE -->
   <div class="env-stage" id="envWrap">
-    <div class="envelope" id="envelope">
+    <div class="envelope envelope-3d" id="envelope">
       <div class="env-flap" id="envFlap"></div>
       <div class="env-pocket"></div>
       <div class="env-body">
         <p class="env-for">for my dearest sister</p>
-        <div class="env-seal-wax">
+        <div class="env-seal-wax wax-pulse">
           <span class="seal-inner">🌸</span>
         </div>
       </div>
@@ -125,7 +131,7 @@
   <!-- LETTER PAPER STAGE -->
   <div class="letter-wrap hidden" id="letterWrap">
     <div class="letter-scroll" id="letterScroll">
-      <article class="letter-paper" id="letterPaper">
+      <article class="letter-paper parchment-glow" id="letterPaper">
         <div class="letter-corner lt"></div>
         <div class="letter-corner rt"></div>
         <div class="letter-corner lb"></div>
@@ -146,7 +152,8 @@
         </div>
       </article>
     </div>
-    <button class="pill-btn pill-dark" id="btnAfterLetter">
+    <button class="pill-btn pill-dark magical-btn" id="btnAfterLetter">
+      <span class="btn-glow-pulse"></span>
       <span class="btn-text">lanjutkan</span>
       <span class="btn-arrow">→</span>
     </button>
@@ -159,14 +166,14 @@
   <div class="centered memories-centered">
     <div class="memories-header">
       <p class="memories-eyebrow">precious moments</p>
-      <h2 class="memories-title">senyuman yang selalu berharga</h2>
+      <h2 class="memories-title shimmer-text">senyuman yang selalu berharga</h2>
       <p class="memories-desc">beberapa potret kecil dari seseorang yang begitu berarti</p>
     </div>
 
     <!-- 3 POLAROID CARDS GALLERY -->
     <div class="polaroid-deck" id="polaroidDeck">
       <!-- Card 1 -->
-      <div class="polaroid-card p-card-1" data-index="0">
+      <div class="polaroid-card p-card-1 card-3d-tilt" data-index="0">
         <div class="polaroid-pin">✦</div>
         <div class="polaroid-photo-frame">
           <img src="foto 1.jpeg" alt="Kenangan 1" class="polaroid-img" />
@@ -177,7 +184,7 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="polaroid-card p-card-2" data-index="1">
+      <div class="polaroid-card p-card-2 card-3d-tilt" data-index="1">
         <div class="polaroid-pin">✦</div>
         <div class="polaroid-photo-frame">
           <img src="foto 2.jpeg" alt="Kenangan 2" class="polaroid-img" />
@@ -188,7 +195,7 @@
       </div>
 
       <!-- Card 3 -->
-      <div class="polaroid-card p-card-3" data-index="2">
+      <div class="polaroid-card p-card-3 card-3d-tilt" data-index="2">
         <div class="polaroid-pin">✦</div>
         <div class="polaroid-photo-frame">
           <img src="foto 3.jpeg" alt="Kenangan 3" class="polaroid-img" />
@@ -199,7 +206,8 @@
       </div>
     </div>
 
-    <button class="pill-btn pill-gold" id="btnAfterMemories" style="margin-top: 2rem;">
+    <button class="pill-btn pill-gold magical-btn" id="btnAfterMemories" style="margin-top: 2rem;">
+      <span class="btn-glow-pulse"></span>
       <span class="btn-text">sebuah harapan untukmu</span>
       <span class="btn-arrow">→</span>
     </button>
@@ -220,6 +228,7 @@
 
 <!-- ═══════ SCENE 5 · WISHES (Cinematic Text Journey) ════════════ -->
 <section class="scene scene-dark" id="s-wishes">
+  <div class="wish-aurora" aria-hidden="true"></div>
   <div class="wish-stage" id="wishStage"></div>
   <div class="wish-progress" id="wishProgress">
     <div class="wish-progress-bar" id="wishProgressBar"></div>
@@ -231,13 +240,14 @@
   <canvas id="starCanvas" aria-hidden="true"></canvas>
 
   <div class="star-ui" id="starUI">
-    <p class="star-prompt">pilih satu bintangmu.</p>
+    <p class="star-prompt shimmer-text">pilih satu bintangmu.</p>
     <p class="star-hint" id="starHint">sentuh bintang yang paling bersinar terang</p>
   </div>
 
   <div class="star-granted hidden" id="starGranted">
     <div class="granted-halo"></div>
-    <p class="star-granted-txt">that's your wish.</p>
+    <div class="granted-stardust"></div>
+    <p class="star-granted-txt shimmer-text">that's your wish.</p>
     <p class="star-granted-sub">semoga alam semesta mengabulkan segalanya</p>
   </div>
 </section>
@@ -248,7 +258,7 @@
 
     <div class="cake-header-wrap">
       <p class="cake-eyebrow" id="cakeEyebrow">one more thing...</p>
-      <p class="cake-title"   id="cakeTitle">make a wish.</p>
+      <p class="cake-title shimmer-text"   id="cakeTitle">make a wish.</p>
       <p class="cake-instruction" id="cakeInstruction">pejamkan mata, ucapkan sebuah doa dalam hati</p>
     </div>
 
@@ -258,6 +268,9 @@
       <!-- CANDLE COMPONENT (Positioned naturally on top tier) -->
       <div class="cake-candle" id="cakeCandle">
         <div class="flame-aura"></div>
+        <div class="flame-smoke hidden" id="flameSmoke">
+          <span></span><span></span><span></span>
+        </div>
         <div class="flame-wrap" id="flameWrap">
           <svg class="flame-svg" id="flameSVG" viewBox="0 0 32 54" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -268,8 +281,8 @@
                 <stop offset="100%" stop-color="#e04040" stop-opacity="0"/>
               </radialGradient>
               <radialGradient id="flameOuter" cx="50%" cy="75%" r="75%">
-                <stop offset="0%"   stop-color="#ffb732" stop-opacity="0.8"/>
-                <stop offset="70%"  stop-color="#ff4500" stop-opacity="0.3"/>
+                <stop offset="0%"   stop-color="#ffb732" stop-opacity="0.85"/>
+                <stop offset="70%"  stop-color="#ff4500" stop-opacity="0.35"/>
                 <stop offset="100%" stop-color="#c9184a" stop-opacity="0"/>
               </radialGradient>
               <filter id="flameBlur"><feGaussianBlur stdDeviation="1.5"/></filter>
@@ -327,52 +340,60 @@
 
     </div><!-- /cake-stage -->
 
-    <button class="pill-btn pill-gold hidden" id="btnBlow">
+    <button class="pill-btn pill-gold magical-btn hidden" id="btnBlow">
+      <span class="btn-glow-pulse"></span>
       <span class="candle-icon">🕯️</span>
       <span class="btn-text">tiup lilinnya</span>
       <span class="sparkle-tiny">✨</span>
     </button>
 
     <div class="cake-after hidden" id="cakeAfter">
-      <p class="cake-hbd">Happy Birthday, Kakak.</p>
+      <p class="cake-hbd shimmer-text">Happy Birthday, Kakak.</p>
       <p class="cake-wish-granted">semoga seluruh doa baikmu hari ini terjawab sempurna</p>
     </div>
 
   </div>
 </section>
 
-<!-- ═══════ SCENE 8 · SURPRISE (Emotional Climax with Memory Floating) ═══════ -->
+<!-- ═══════ SCENE 8 · SURPRISE (Emotional Climax with Fireworks & 3D Ring) ═══════ -->
 <section class="scene scene-dark" id="s-surprise">
+  <canvas id="fireworksCanvas" aria-hidden="true"></canvas>
   <div class="centered">
     <div id="srpWait">
-      <p class="surprise-line">tunggu sebentar...</p>
+      <p class="surprise-line pulse-glow">tunggu sebentar...</p>
     </div>
     <div class="hidden" id="srpTeaser">
       <p class="surprise-line">ada satu hal kecil lagi yang belum terucap.</p>
-      <button class="pill-btn pill-gold" id="btnOpenSrp" style="margin-top:2.2rem">
+      <button class="pill-btn pill-gold magical-btn" id="btnOpenSrp" style="margin-top:2.2rem">
+        <span class="btn-glow-pulse"></span>
         <span class="btn-text">buka sekarang</span>
         <span class="btn-arrow">✨</span>
       </button>
     </div>
     <div class="srp-reveal hidden" id="srpReveal">
       <div class="srp-glow"></div>
-      <div class="srp-avatar-ring">
-        <img src="foto 1.jpeg" alt="Kakak" class="srp-avatar-img" />
+      <div class="srp-avatar-orbit">
+        <div class="srp-orbit-ring ring-1"></div>
+        <div class="srp-orbit-ring ring-2"></div>
+        <div class="srp-avatar-ring">
+          <img src="foto 1.jpeg" alt="Kakak" class="srp-avatar-img" />
+        </div>
       </div>
-      <h2 class="srp-title" id="srpTitle">HAPPY BIRTHDAY, KAKAK 🤍</h2>
+      <h2 class="srp-title shimmer-text" id="srpTitle">HAPPY BIRTHDAY, KAKAK 🤍</h2>
       <p class="srp-sub">semoga tahun ini berjalan seindah dan sebaik hatimu.</p>
       <p class="srp-thankyou">terima kasih sudah ada di dunia ini.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════ SCENE 9 · FINAL (Minimalistic Memory Screen) ═════════ -->
+<!-- ═══════ SCENE 9 · FINAL (Minimalistic Memory Screen with Meteors) ═════════ -->
 <section class="scene scene-dark" id="s-final">
   <canvas id="finalCanvas" aria-hidden="true"></canvas>
 
   <div class="centered final-centered">
-    <div class="final-shooting-star"></div>
-    <h1 class="final-name" id="finalName">Kakak</h1>
+    <div class="final-shooting-star meteor-1"></div>
+    <div class="final-shooting-star meteor-2"></div>
+    <h1 class="final-name shimmer-text" id="finalName">Kakak</h1>
     <p  class="final-hbd">happy birthday</p>
     <div class="final-rule"></div>
     <p  class="final-date" id="finalDate">22 November 2026</p>

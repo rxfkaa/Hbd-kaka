@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   A LITTLE BIRTHDAY STORY — script.js v5 (Precious Memories)
-   Full Integration: 3-Photo Polaroid Gallery, Lightbox & Surprise
+   A LITTLE BIRTHDAY STORY — script.js v6 (Deluxe Animations Engine)
+   Sparkle Trails · Fireworks Canvas · Petal Physics · 3D Tilt Card
    ═══════════════════════════════════════════════════════════════ */
 
 /* ════════════════════════════════════════════════════════════════
@@ -59,7 +59,7 @@ const lerp  = (a, b, t) => a + (b - a) * t;
 let currentScene = 's-intro';
 const overlay = $('#sceneOverlay');
 
-async function goToScene(id, dur = 800) {
+async function goToScene(id, dur = 850) {
   overlay.style.transition = `opacity ${dur * 0.42}ms cubic-bezier(0.77, 0, 0.175, 1)`;
   overlay.style.opacity = '1';
   overlay.style.pointerEvents = 'all';
@@ -95,9 +95,56 @@ function onSceneEnter(id) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   1. ORGANIC FLOATING DUST PARTICLES
+   1. MOUSE CURSOR GLOW TRAIL & INTERACTIVE SPARKLES
 ═══════════════════════════════════════════════════════════════ */
-(function initDust() {
+const cursorGlow = $('#cursorGlow');
+let lastSparkleTime = 0;
+
+window.addEventListener('pointermove', e => {
+  if (cursorGlow) {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top  = e.clientY + 'px';
+  }
+
+  // Throttle sparkle creation on move
+  const now = performance.now();
+  if (now - lastSparkleTime > 45) {
+    createSparkle(e.clientX, e.clientY);
+    lastSparkleTime = now;
+  }
+});
+
+function createSparkle(x, y) {
+  const sp = document.createElement('div');
+  const size = Math.random() * 5 + 3;
+  sp.style.cssText = `
+    position: fixed;
+    left: ${x + (Math.random() - 0.5) * 20}px;
+    top: ${y + (Math.random() - 0.5) * 20}px;
+    width: ${size}px;
+    height: ${size}px;
+    background: radial-gradient(circle, #fff 0%, #caa468 70%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9991;
+    transform: scale(1);
+    opacity: 0.9;
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  `;
+  document.body.appendChild(sp);
+
+  requestAnimationFrame(() => {
+    sp.style.transform = `translate(${(Math.random() - 0.5) * 35}px, ${Math.random() * 25 + 10}px) scale(0)`;
+    sp.style.opacity = '0';
+  });
+
+  setTimeout(() => sp.remove(), 600);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. DUST PARTICLES & DRIFTING SAKURA PETALS
+═══════════════════════════════════════════════════════════════ */
+(function initDustAndPetals() {
   const canvas = $('#dustCanvas');
   const ctx = canvas.getContext('2d');
   let W, H;
@@ -115,9 +162,9 @@ function onSceneEnter(id) {
       this.x     = Math.random() * W;
       this.y     = scatter ? Math.random() * H : H + 10;
       this.r     = Math.random() * 1.6 + 0.35;
-      this.vy    = -(Math.random() * 0.22 + 0.06);
-      this.vx    = (Math.random() - 0.5) * 0.15;
-      this.a     = Math.random() * 0.35 + 0.06;
+      this.vy    = -(Math.random() * 0.24 + 0.06);
+      this.vx    = (Math.random() - 0.5) * 0.16;
+      this.a     = Math.random() * 0.38 + 0.08;
       this.phase = Math.random() * Math.PI * 2;
     }
     update(t) {
@@ -135,19 +182,50 @@ function onSceneEnter(id) {
     }
   }
 
-  const dustCount = Math.min(75, Math.floor((window.innerWidth * window.innerHeight) / 12000));
-  const dustList = Array.from({ length: dustCount }, () => new DustParticle());
+  class SakuraPetal {
+    constructor() { this.reset(true); }
+    reset(scatter) {
+      this.x      = Math.random() * W;
+      this.y      = scatter ? Math.random() * H : -20;
+      this.size   = Math.random() * 6 + 5;
+      this.vy     = Math.random() * 0.6 + 0.3;
+      this.vx     = Math.random() * 0.5 - 0.2;
+      this.angle  = Math.random() * Math.PI * 2;
+      this.vAngle = Math.random() * 0.02 - 0.01;
+      this.a      = Math.random() * 0.4 + 0.2;
+    }
+    update() {
+      this.y += this.vy;
+      this.x += this.vx + Math.sin(this.y * 0.02) * 0.4;
+      this.angle += this.vAngle;
+      if (this.y > H + 25) this.reset(false);
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, this.size, this.size * 0.55, 0, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(240, 173, 183, ${this.a})`;
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const dustList   = Array.from({ length: 65 }, () => new DustParticle());
+  const petalsList = Array.from({ length: 18 }, () => new SakuraPetal());
 
   function loop(t) {
     ctx.clearRect(0, 0, W, H);
     dustList.forEach(d => { d.update(t); d.draw(); });
+    petalsList.forEach(p => { p.update(); p.draw(); });
     requestAnimationFrame(loop);
   }
   loop(0);
 })();
 
 /* ═══════════════════════════════════════════════════════════════
-   2. AUDIO CONTROLLER & DYNAMIC FADER
+   3. AUDIO CONTROLLER & DYNAMIC FADER
 ═══════════════════════════════════════════════════════════════ */
 const audio      = $('#bgAudio');
 const musicCtrl  = $('#musicCtrl');
@@ -251,7 +329,7 @@ function enterDate() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SCENE 3 · CHAPTER
+   SCENE 3 · CHAPTER (Smooth Counter Animation)
 ═══════════════════════════════════════════════════════════════ */
 function enterChapter() {
   const numEl = $('#chapNum');
@@ -259,8 +337,8 @@ function enterChapter() {
   $('#chapSub').textContent = `chapter ${birthdayConfig.age} begins today.`;
 
   setTimeout(() => {
-    counter(numEl, 0, birthdayConfig.age, 1900);
-    setTimeout(() => goToScene('s-letter', 900), 3900);
+    counter(numEl, 0, birthdayConfig.age, 2000);
+    setTimeout(() => goToScene('s-letter', 900), 4000);
   }, 700);
 }
 
@@ -319,24 +397,42 @@ $('#envWrap').addEventListener('click', () => {
   }, 650);
 });
 
-/* Pindah ke Scene 4.5 (Memories) setelah surat */
 $('#btnAfterLetter').addEventListener('click', () => goToScene('s-memories', 900));
 
 /* ═══════════════════════════════════════════════════════════════
-   SCENE 4.5 · PRECIOUS MEMORIES (3 Polaroid Photos Gallery)
+   SCENE 4.5 · PRECIOUS MEMORIES (Interactive 3D Tilt Cards)
 ═══════════════════════════════════════════════════════════════ */
 function enterMemories() {
   gsap.from('.memories-header', { opacity: 0, y: 25, duration: 1.1, ease: 'power2.out' });
   gsap.from('.polaroid-card', {
     opacity: 0,
-    y: 40,
-    scale: 0.9,
-    stagger: 0.2,
-    duration: 1.2,
+    y: 45,
+    scale: 0.88,
+    stagger: 0.22,
+    duration: 1.3,
     ease: 'power3.out',
-    delay: 0.3
+    delay: 0.25
   });
 }
+
+// 3D Tilt calculation on hover for cards
+$$('.card-3d-tilt').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -12;
+    const rotateY = ((x - centerX) / centerX) * 12;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.06, 1.06, 1.06)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
 
 /* Lightbox Interactivity */
 const lightboxModal   = $('#lightboxModal');
@@ -597,7 +693,7 @@ function starBurst(s) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SCENE 7 · BIRTHDAY CAKE & INTERACTIVE BLOW
+   SCENE 7 · BIRTHDAY CAKE & SMOKE BLOW
 ═══════════════════════════════════════════════════════════════ */
 let candleBlown = false;
 
@@ -605,6 +701,7 @@ function enterCake() {
   candleBlown = false;
   $('#flameWrap').classList.remove('blown');
   $('.flame-aura').style.display = 'block';
+  $('#flameSmoke').classList.add('hidden');
   $('#btnBlow').classList.add('hidden');
   $('#cakeAfter').classList.add('hidden');
   $('#cakeStage').classList.remove('shown');
@@ -626,12 +723,15 @@ $('#btnBlow').addEventListener('click', async () => {
   const btn   = $('#btnBlow');
   const flame = $('#flameWrap');
   const aura  = $('.flame-aura');
+  const smoke = $('#flameSmoke');
   const scene = $('#s-cake');
 
   gsap.to(btn, { opacity: 0, y: 8, duration: 0.4, onComplete: () => btn.classList.add('hidden') });
 
   flame.classList.add('blown');
   aura.style.display = 'none';
+  smoke.classList.remove('hidden');
+
   await sleep(550);
 
   gsap.to(scene, { backgroundColor: '#020104', duration: 1.3 });
@@ -645,12 +745,12 @@ $('#btnBlow').addEventListener('click', async () => {
     transform:translate(-50%,-50%);
     width:8px; height:8px; border-radius:50%;
     background:rgba(255,245,215,1);
-    box-shadow:0 0 80px 70px rgba(245,223,184,0.15), 0 0 160px 120px rgba(202,164,104,0.08);
+    box-shadow:0 0 80px 70px rgba(245,223,184,0.18), 0 0 160px 120px rgba(202,164,104,0.1);
     z-index:4; pointer-events:none;`;
   scene.appendChild(beam);
   gsap.from(beam, { opacity: 0, scale: 0, duration: 1.5, ease: 'power3.out' });
 
-  spawnConfetti(80);
+  spawnConfetti(85);
 
   await sleep(800);
   const after = $('#cakeAfter');
@@ -662,8 +762,10 @@ $('#btnBlow').addEventListener('click', async () => {
 });
 
 /* ═══════════════════════════════════════════════════════════════
-   SCENE 8 · SURPRISE REVEAL
+   SCENE 8 · SURPRISE REVEAL & DYNAMIC FIREWORKS
 ═══════════════════════════════════════════════════════════════ */
+let fireworksRunning = false;
+
 async function enterSurprise() {
   $('#srpWait').classList.remove('hidden');
   $('#srpTeaser').classList.add('hidden');
@@ -694,11 +796,87 @@ $('#btnOpenSrp').addEventListener('click', async () => {
 
   $('#srpTitle').textContent = `HAPPY BIRTHDAY, ${birthdayConfig.name.toUpperCase()} 🤍`;
   $('#srpReveal').classList.remove('hidden');
-  spawnConfetti(110);
 
-  await sleep(5500);
+  // Start Canvas Fireworks Display!
+  startFireworks();
+  spawnConfetti(120);
+
+  await sleep(6500);
+  fireworksRunning = false;
   goToScene('s-final', 1200);
 });
+
+/* Canvas Fireworks System */
+function startFireworks() {
+  const canvas = $('#fireworksCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  fireworksRunning = true;
+
+  const particles = [];
+  const colors = ['#f5dfb8', '#caa468', '#f0adb7', '#ffffff', '#e056fd'];
+
+  function createFirework() {
+    const x = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+    const y = Math.random() * canvas.height * 0.5 + canvas.height * 0.1;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const count = 45;
+
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2;
+      const speed = Math.random() * 4 + 1.5;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        color,
+        size: Math.random() * 2 + 1.5
+      });
+    }
+  }
+
+  let lastSpawn = 0;
+  function animate(now) {
+    if (!fireworksRunning && particles.length === 0) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+
+    ctx.fillStyle = 'rgba(7, 4, 8, 0.2)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (fireworksRunning && now - lastSpawn > 600) {
+      createFirework();
+      lastSpawn = now;
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.04; // gravity
+      p.alpha -= 0.015;
+
+      if (p.alpha <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
 
 /* ═══════════════════════════════════════════════════════════════
    SCENE 9 · FINAL CELESTIAL SCREEN
